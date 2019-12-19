@@ -1,5 +1,5 @@
 {
-  "name": "IonToJson",
+  "name": "ion-to-json",
   "version": "1.0.0",
   "description" : "A utility function that converts Amazon ION to JSON",
   "main": "dist/IonToJson.js",
