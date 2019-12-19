@@ -1,19 +1,31 @@
 {
   "name": "IonToJson",
   "version": "1.0.0",
+  "description" : "A utility function that converts Amazon ION to JSON",
+  "main": "dist/IonToJson.js",
+  "types": "dist/IonToJson.d.ts",
   "author": "Koto Jallow <kotojalloh.kj@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "ion-js": "^3.1.2"
   },
   "scripts": {
-    "testTS": "nodemon test/test.ts",
-    "testJS": "nodemon test/test.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "node",
+    "Amazon Ion",
+    "ion","JSON"
+  ],
   "devDependencies": {
     "@types/node": "^12.12.21",
     "nodemon": "^2.0.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KotoJallow/IonToJson"
+  },
+  "homepage": "https://github.com/KotoJallow/IonToJson#readme"
 }
