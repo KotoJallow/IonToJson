@@ -1,6 +1,8 @@
 ### Ion to JSON
 
     Converts Amazon Ion to JSON.
+    
+### npm install ion-to-json
 
 
    ### TypeScript Sample
