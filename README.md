@@ -4,7 +4,7 @@
 
 
    ### TypeScript Sample
-    import { ionToJSON } from "../src/utils";
+    import { ionToJSON } from "ion-to-json";
     import { makeReader, Reader } from "ion-js";
 
     let json;
@@ -47,18 +47,18 @@
    ### Javascript Sample
     "use strict";
 
-    var util = require("../src/utils");
+    var iontojson = require("ion-to-json");
     var ion = require("ion-js");
 
     var json;
 
     var reader = ion.makeReader('{hello: "world"}');
-    json = util.ionToJSON(reader);
+    json = iontojson.ionToJSON(reader);
     console.log(json);
     console.log(json.hello);
 
     var unformatted = ion.makeReader('{level1: {level2: {level3: "foo"}, x: 2}, y: [1,2,3]}');
-    json = util.ionToJSON(unformatted);
+    json = iontojson.ionToJSON(unformatted);
     console.log(json);
     console.log(json.level1.level2.level3);
 
@@ -80,7 +80,7 @@
         }]`;
 
     var arrayTest = ion.makeReader(sampleArray);
-    json = util.ionToJSON(arrayTest);
+    json = iontojson.ionToJSON(arrayTest);
     console.log(json);
     console.log(json[0].Color);
 
