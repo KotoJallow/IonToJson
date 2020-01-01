@@ -92,3 +92,5 @@
     Pass your result.getResultList() to the utility function
     And violá! There you are with Javascript Object (JSON)
 ###
+
+### Disclaimer : Kudos to https://github.com/Lepozepo/qldb

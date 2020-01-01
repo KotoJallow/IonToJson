@@ -1,32 +1,63 @@
-import { Reader, makePrettyWriter, Writer, decodeUtf8 } from "ion-js";
+import { Reader, IonTypes } from "ion-js";
 
 export function ionToJSON(reader: Reader | Reader[]) : any {
-    return Array.isArray(reader) ? ionToJSONArray(reader) : ionToJSONUnit(reader);
+    return Array.isArray(reader) ? parseArray(reader) : parseUnit(reader);
 }
 
-function ionToJSONArray(readerList: Reader[]): any {
-    let json = [];
-    readerList.forEach((reader: Reader) => {json = json.concat(ionToJsonUtil(reader))});
-    return json;
+const parseArray = (readerList: Reader[]) => {
+    return readerList.map(parseIon);
 }
 
-function ionToJSONUnit(reader: Reader): any {
-    return ionToJsonUtil(reader);
+const parseUnit = (reader: Reader) => {
+    return parseIon(reader);
 }
 
-function ionToJsonUtil(reader: Reader){
-    let byteString: string = decodeIonBytes(reader);
-    byteString = '[' + byteString + ']';
-    let [json] = eval(byteString);
-    return json;
+const parseIon = (ion: Reader) => {
+    if (ion.type() === null) {
+        ion.next();
+    }
+
+    if (ion.type() === IonTypes.LIST) {
+        const list = [];
+        ion.stepIn();
+        while (ion.next() != null) {
+            const itemInList = parseIon(ion);
+            list.push(itemInList);
+        }
+
+        return list;
+    }
+
+    if (ion.type() === IonTypes.STRUCT) {
+        const structToReturn = {};
+
+        let type;
+        const currentDepth = ion.depth();
+        ion.stepIn();
+        while (ion.depth() > currentDepth) {
+            type = ion.next();
+            if (type === null) {
+                ion.stepOut();
+            } else {
+                structToReturn[ion.fieldName()] = parseIon(ion);
+            }
+        }
+        return structToReturn;
+    }
+
+    if (ion.type().isNumeric) {
+        return ion.numberValue();
+    }
+
+    if (ion.type() === IonTypes.DECIMAL) {
+        return ion.decimalValue().numberValue();
+    }
+
+    if (ion.type() === IonTypes.TIMESTAMP) {
+        return ion.value().toString();
+    }
+
+    return ion.value();
 }
-
-function decodeIonBytes(reader: Reader) : string{
-    const writer: Writer = makePrettyWriter();
-    writer.writeValues(reader);
-    return decodeUtf8(writer.getBytes())
-}
-
-
 
 
