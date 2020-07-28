@@ -19,10 +19,17 @@ const parseIon = (ion: Reader) => {
 
     if (ion.type() === IonTypes.LIST) {
         const list = [];
+	let type;
+	const depth = ion.depth();
         ion.stepIn();
-        while (ion.next() != null) {
-            const itemInList = parseIon(ion);
-            list.push(itemInList);
+        while (ion.depth() > depth) {
+	    type = ion.next();
+	    if(type == null){
+		ion.stepOut();
+	    }else{
+           	 const itemInList = parseIon(ion);
+           	 list.push(itemInList);
+	    }
         }
 
         return list;
